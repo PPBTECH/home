@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PPB TECH - Equipo de Robótica Profesional</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary-cyan: #00d4ff;
+            --primary-blue: #0084ff;
+            --dark-bg: #0a0a0a;
+            --card-bg: #141414;
+            --border-color: rgba(255, 255, 255, 0.08);
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0a0;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--dark-bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        /* Smooth Scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Header Profesional */
+        header {
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1.2rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        header.scrolled {
+            padding: 0.8rem 0;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+        }
+        
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+        
+        .logo-section img {
+            height: 50px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            filter: drop-shadow(0 0 10px rgba(0, 212, 255, 0.3));
+        }
+        
+        .logo-section img:hover {
+            transform: scale(1.05);
+        }
+        
+        .brand-name {
+            font-size: 1.6rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, var(--primary-cyan), var(--primary-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        nav {
+            display: flex;
+            gap: 2.5rem;
+            align-items: center;
+        }
+        
+        nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary-cyan), var(--primary-blue));
+            transition: width 0.3s ease;
+        }
+        
+        nav a:hover {
+            color: var(--text-primary);
+        }
+        
+        nav a:hover::after {
+            width: 100%;
+        }
+        
+        .cta-button {
+            background: linear-gradient(135deg, var(--primary-cyan), var(--primary-blue));
+            color: white;
+            padding: 0.7rem 1.8rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(0, 212, 255, 0.5);
+        }
+        
+        /* Hero Section Moderno */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 8rem 2rem 4rem;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(0, 212, 255, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(0, 132, 255, 0.15) 0%, transparent 50%);
+            z-index: 0;
+        }
+        
+        .video-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+            opacity: 0.3;
+            filter: brightness(0.4) contrast(1.2);
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .hero-badge {
+            display: inline-block;
+            background: rgba(0, 212, 255, 0.1);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--primary-cyan);
+            margin-bottom: 2rem;
+            letter-spacing: 0.5px;
+        }
+        
+        .hero h1 {
+            font-size: 4.5rem;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            letter-spacing: -2px;
+            background: linear-gradient(135deg, #ffffff, #a0a0a0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .hero .subtitle {
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+            font-weight: 400;
+            line-height: 1.6;
+        }
+        
+        .hero-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-cyan), var(--primary-blue));
+            color: white;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0, 212, 255, 0.4);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(0, 212, 255, 0.6);
+        }
+        
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+        }
+        
+        /* Features Section */
+        .features-section {
+            padding: 6rem 2rem;
+            background: var(--dark-bg);
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        
+        .section-badge {
+            display: inline-block;
+            background: rgba(0, 212, 255, 0.1);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            padding: 0.4rem 1.2rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--primary-cyan);
+            margin-bottom: 1rem;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+        
+        .section-title {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            letter-spacing: -1px;
+        }
+        
+        .section-description {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .feature-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 2.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-cyan), var(--primary-blue));
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(0, 212, 255, 0.3);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+        
+        .feature-card:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.2), rgba(0, 132, 255, 0.2));
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+        
+        .feature-card p {
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+        
+        /* Stats Section */
+        .stats-section {
+            padding: 5rem 2rem;
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.05), rgba(0, 132, 255, 0.05));
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 3rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 3.5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--primary-cyan), var(--primary-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+        
+        /* Projects Section */
+        .projects-section {
+            padding: 6rem 2rem;
+            background: var(--dark-bg);
+        }
+        
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2.5rem;
+            margin-top: 3rem;
+        }
+        
+        .project-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .project-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(0, 212, 255, 0.3);
+            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.6);
+        }
+        
+        .project-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .project-card:hover .project-image {
+            transform: scale(1.05);
+        }
+        
+        .project-content {
+            padding: 2rem;
+        }
+        
+        .project-badges {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .badge {
+            background: rgba(0, 212, 255, 0.15);
+            color: var(--primary-cyan);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .badge.success {
+            background: rgba(34, 197, 94, 0.15);
+            color: #22c55e;
+        }
+        
+        .project-card h3 {
+            font-size: 1.6rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+        
+        .project-card p {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+        
+        .project-link {
+            color: var(--primary-cyan);
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: gap 0.3s ease;
+        }
+        
+        .project-link:hover {
+            gap: 1rem;
+        }
+        
+        /* Team Section */
+        .team-section {
+            padding: 6rem 2rem;
+            background: var(--card-bg);
+        }
+        
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2.5rem;
+            margin-top: 3rem;
+        }
+        
+        .team-card {
+            background: var(--dark-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 2.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .team-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(0, 212, 255, 0.3);
+        }
+        
+        .team-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-cyan), var(--primary-blue));
+            margin: 0 auto 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            font-weight: 700;
+            color: white;
+        }
+        
+        .team-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+        
+        .team-role {
+            color: var(--primary-cyan);
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        
+        .team-card p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--card-bg);
+            border-top: 1px solid var(--border-color);
+            padding: 4rem 2rem 2rem;
+        }
+        
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+        
+        .footer-section h4 {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+        }
+        
+        .footer-section p,
+        .footer-section a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            display: block;
+            margin-bottom: 0.8rem;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-section a:hover {
+            color: var(--primary-cyan);
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-secondary);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-container {
+                padding: 0 1rem;
+            }
+            
+            nav {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero .subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .features-grid,
+            .projects-grid,
+            .team-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header id="header">
+        <div class="header-container">
+            <div class="logo-section">
+                <img src="imagenes/logo PPB tech sin fondo.png" alt="PPB TECH Logo">
+                <span class="brand-name">PPB TECH</span>
+            </div>
+            <nav>
+                <a href="#inicio">Inicio</a>
+                <a href="#nosotros">Nosotros</a>
+                <a href="#proyectos">Proyectos</a>
+                <a href="#equipo">Equipo</a>
+                <a href="#contacto" class="cta-button">Contáctanos</a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero" id="inicio">
+        <video autoplay muted loop class="video-bg">
+            <source src="imagenes/intro  IEK.mp4" type="video/mp4">
+        </video>
+        <div class="hero-content">
+            <div class="hero-badge">🤖 Equipo de Robótica Profesional</div>
+            <h1>Innovamos el futuro con robótica de clase mundial</h1>
+            <p class="subtitle">Desarrollamos robots avanzados, competimos a nivel nacional e inspiramos a la próxima generación de ingenieros en Paraguay</p>
+            <div class="hero-buttons">
+                <a href="proyectos_modern.html" class="btn-primary">Ver Proyectos</a>
+                <a href="#nosotros" class="btn-secondary">Conocer Más</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="stats-section">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number">3+</div>
+                    <div class="stat-label">Años de Experiencia</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">15+</div>
+                    <div class="stat-label">Proyectos Completados</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">2</div>
+                    <div class="stat-label">Premios Nacionales</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">10+</div>
+                    <div class="stat-label">Competencias</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="features-section" id="nosotros">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-badge">¿Quiénes Somos?</div>
+                <h2 class="section-title">Excelencia en Robótica STEAM</h2>
+                <p class="section-description">PPB TECH es el equipo de robótica que representa con orgullo a la Institución Educativa Pablo Patricio Bogarín</p>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3>Nuestra Misión</h3>
+                    <p>Formar futuros líderes en robótica mediante educación práctica en programación, diseño mecánico y electrónica, cultivando una mentalidad innovadora para abordar desafíos tecnológicos.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🏆</div>
+                    <h3>Logros Destacados</h3>
+                    <p>Segundo lugar en World Robot Olympiad (WRO) y Premio a la Excelencia en STEAM 2024 otorgado por FIRST Tech Challenge Paraguay.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">💡</div>
+                    <h3>Innovación Continua</h3>
+                    <p>Desarrollamos proyectos que no solo son técnicamente avanzados, sino también significativos para la comunidad y el medio ambiente.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🔧</div>
+                    <h3>Experiencia Práctica</h3>
+                    <p>Los miembros adquieren experiencia en programación y construcción de robots, trabajando en un entorno profesional de equipo.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🌍</div>
+                    <h3>Competencias Internacionales</h3>
+                    <p>Participamos en eventos desde locales hasta nacionales, representando a Paraguay en competencias de robótica FTC y WRO.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">📚</div>
+                    <h3>Educación STEAM</h3>
+                    <p>Mantenemos una cultura de aprendizaje continuo en Ciencia, Tecnología, Ingeniería, Arte y Matemáticas.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="projects-section" id="proyectos">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-badge">Nuestro Trabajo</div>
+                <h2 class="section-title">Proyectos Destacados</h2>
+                <p class="section-description">Robots innovadores que han competido y ganado en eventos nacionales e internacionales</p>
+            </div>
+            
+            <div class="projects-grid">
+                <div class="project-card">
+                    <img src="imagenes/seguidor de linea.webp" alt="Robot Siguelíneas" class="project-image">
+                    <div class="project-content">
+                        <div class="project-badges">
+                            <span class="badge success">Completado</span>
+                            <span class="badge">Arduino</span>
+                            <span class="badge">Sensores IR</span>
+                        </div>
+                        <h3>Robot Siguelíneas</h3>
+                        <p>Robot móvil autónomo capaz de seguir una línea negra utilizando sensores infrarrojos QTR-8A y motores DC controlados por Arduino.</p>
+                        <a href="proyectos_nuevo.html" class="project-link">Ver detalles →</a>
+                    </div>
+                </div>
+                
+                <div class="project-card">
+                    <img src="imagenes/equipo.jpeg" alt="Robot Reforestador" class="project-image">
+                    <div class="project-content">
+                        <div class="project-badges">
+                            <span class="badge success">2do Lugar WRO</span>
+                            <span class="badge">Sustentable</span>
+                        </div>
+                        <h3>Robot Reforestador</h3>
+                        <p>Proyecto ganador del segundo puesto en la World Robot Olympiad. Robot diseñado para ayudar en tareas de reforestación y cuidado ambiental.</p>
+                        <a href="#" class="project-link">Próximamente →</a>
+                    </div>
+                </div>
+                
+                <div class="project-card">
+                    <img src="imagenes/hero_background.jpg" alt="Robot FTC" class="project-image">
+                    <div class="project-content">
+                        <div class="project-badges">
+                            <span class="badge success">Premio STEAM</span>
+                            <span class="badge">FTC 2024</span>
+                        </div>
+                        <h3>Robot FTC 2024</h3>
+                        <p>Robot competidor en la First Tech Challenge Paraguay. Ganador del Premio a la Excelencia en STEAM 2024 por innovación y trabajo en equipo.</p>
+                        <a href="#" class="project-link">Próximamente →</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="team-section" id="equipo">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-badge">Nuestro Equipo</div>
+                <h2 class="section-title">Los Cerebros Detrás de la Innovación</h2>
+                <p class="section-description">Estudiantes apasionados por la tecnología y la robótica</p>
+            </div>
+            
+            <div class="team-grid">
+                <div class="team-card">
+                    <div class="team-avatar">TN</div>
+                    <h3>Tobías Núñez</h3>
+                    <p class="team-role">Miembro Fundador</p>
+                    <p>Especialista en programación y electrónica. Líder técnico del equipo con experiencia en Arduino y diseño de circuitos.</p>
+                </div>
+                
+                <div class="team-card">
+                    <div class="team-avatar">CD</div>
+                    <h3>César Delvalle</h3>
+                    <p class="team-role">Miembro Fundador</p>
+                    <p>Experto en diseño mecánico y construcción de robots. Responsable de la ingeniería estructural de nuestros proyectos.</p>
+                </div>
+                
+                <div class="team-card">
+                    <div class="team-avatar">JM</div>
+                    <h3>Jorge Monzón</h3>
+                    <p class="team-role">Miembro Activo</p>
+                    <p>Especialista en integración de sistemas y testing. Asegura el funcionamiento óptimo de todos nuestros robots.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="features-section" id="contacto">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-badge">Contacto</div>
+                <h2 class="section-title">¿Listo para Innovar con Nosotros?</h2>
+                <p class="section-description">Únete a PPB TECH y sé parte de la revolución tecnológica en Paraguay</p>
+            </div>
+            
+            <div style="max-width: 600px; margin: 3rem auto; text-align: center;">
+                <p style="font-size: 1.1rem; color: var(--text-secondary); margin-bottom: 2rem;">
+                    Estamos organizando talleres y charlas sobre robótica, programación, Arduino y componentes básicos de electrónica durante el periodo 2025-2026.
+                </p>
+                <a href="mailto:ppbtech@contacto.com" class="btn-primary" style="display: inline-block;">Contáctanos</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>PPB TECH</h4>
+                <p>Equipo de robótica de la Institución Educativa Pablo Patricio Bogarín</p>
+                <p>Innovación • Excelencia • Tecnología</p>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Enlaces Rápidos</h4>
+                <a href="#inicio">Inicio</a>
+                <a href="#nosotros">Nosotros</a>
+                <a href="#proyectos">Proyectos</a>
+                <a href="#equipo">Equipo</a>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Proyectos</h4>
+                <a href="proyectos_nuevo.html">Robot Siguelíneas</a>
+                <a href="#">Robot Reforestador</a>
+                <a href="#">Robot FTC 2024</a>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Contacto</h4>
+                <p>Paraguay</p>
+                <p>ppbtech@contacto.com</p>
+                <a href="#">Instagram</a>
+                <a href="#">GitHub</a>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2025 PPB TECH - Todos los derechos reservados | Institución Educativa Pablo Patricio Bogarín</p>
+        </div>
+    </footer>
+
+    <script>
+        // Header scroll effect
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+    </script>
+</body>
+</html>
