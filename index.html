@@ -1,880 +1,679 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PPB TECH - Equipo de Robótica Profesional</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard IoT - Monitoreo Ambiental</title>
+    <!-- Fuentes -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- ApexCharts -->
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <!-- Three.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+    
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        :root {
-            --primary-cyan: #00d4ff;
-            --primary-blue: #0084ff;
-            --dark-bg: #0a0a0a;
-            --card-bg: #141414;
-            --border-color: rgba(255, 255, 255, 0.08);
-            --text-primary: #ffffff;
-            --text-secondary: #a0a0a0;
-        }
-        
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: var(--dark-bg);
-            color: var(--text-primary);
-            line-height: 1.6;
+            font-family: 'Roboto', sans-serif;
+            background: #0f172a;
+            color: #e2e8f0;
             overflow-x: hidden;
         }
-        
-        /* Smooth Scroll */
-        html {
-            scroll-behavior: smooth;
-        }
-        
-        /* Header Profesional */
-        header {
-            background: rgba(10, 10, 10, 0.95);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--border-color);
-            padding: 1.2rem 0;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
-        header.scrolled {
-            padding: 0.8rem 0;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
-        }
-        
-        .header-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .logo-section {
-            display: flex;
-            align-items: center;
-            gap: 1.5rem;
-        }
-        
-        .logo-section img {
-            height: 50px;
-            cursor: pointer;
-            transition: transform 0.3s ease;
-            filter: drop-shadow(0 0 10px rgba(0, 212, 255, 0.3));
-        }
-        
-        .logo-section img:hover {
-            transform: scale(1.05);
-        }
-        
-        .brand-name {
-            font-size: 1.6rem;
-            font-weight: 800;
-            letter-spacing: -0.5px;
-            background: linear-gradient(135deg, var(--primary-cyan), var(--primary-blue));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        
-        nav {
-            display: flex;
-            gap: 2.5rem;
-            align-items: center;
-        }
-        
-        nav a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 0.95rem;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-        
-        nav a::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: linear-gradient(90deg, var(--primary-cyan), var(--primary-blue));
-            transition: width 0.3s ease;
-        }
-        
-        nav a:hover {
-            color: var(--text-primary);
-        }
-        
-        nav a:hover::after {
-            width: 100%;
-        }
-        
-        .cta-button {
-            background: linear-gradient(135deg, var(--primary-cyan), var(--primary-blue));
-            color: white;
-            padding: 0.7rem 1.8rem;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
-        }
-        
-        .cta-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 25px rgba(0, 212, 255, 0.5);
-        }
-        
-        /* Hero Section Moderno */
-        .hero {
-            position: relative;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 8rem 2rem 4rem;
-            overflow: hidden;
-        }
-        
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: 
-                radial-gradient(circle at 20% 50%, rgba(0, 212, 255, 0.15) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(0, 132, 255, 0.15) 0%, transparent 50%);
-            z-index: 0;
-        }
-        
-        .video-bg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            z-index: -1;
-            opacity: 0.3;
-            filter: brightness(0.4) contrast(1.2);
-        }
-        
-        .hero-content {
-            position: relative;
-            z-index: 1;
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-        
-        .hero-badge {
-            display: inline-block;
-            background: rgba(0, 212, 255, 0.1);
-            border: 1px solid rgba(0, 212, 255, 0.3);
-            padding: 0.5rem 1.5rem;
-            border-radius: 50px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: var(--primary-cyan);
-            margin-bottom: 2rem;
-            letter-spacing: 0.5px;
-        }
-        
-        .hero h1 {
-            font-size: 4.5rem;
-            font-weight: 900;
-            line-height: 1.1;
-            margin-bottom: 1.5rem;
-            letter-spacing: -2px;
-            background: linear-gradient(135deg, #ffffff, #a0a0a0);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        
-        .hero .subtitle {
-            font-size: 1.3rem;
-            color: var(--text-secondary);
-            margin-bottom: 3rem;
-            font-weight: 400;
-            line-height: 1.6;
-        }
-        
-        .hero-buttons {
-            display: flex;
-            gap: 1.5rem;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-        
-        .btn-primary {
-            background: linear-gradient(135deg, var(--primary-cyan), var(--primary-blue));
-            color: white;
-            padding: 1rem 2.5rem;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 20px rgba(0, 212, 255, 0.4);
-        }
-        
-        .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 30px rgba(0, 212, 255, 0.6);
-        }
-        
-        .btn-secondary {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: white;
-            padding: 1rem 2.5rem;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 1rem;
-            transition: all 0.3s ease;
+        .dashboard-card {
+            background: rgba(30, 41, 59, 0.5);
             backdrop-filter: blur(10px);
-        }
-        
-        .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: rgba(255, 255, 255, 0.2);
-            transform: translateY(-3px);
-        }
-        
-        /* Features Section */
-        .features-section {
-            padding: 6rem 2rem;
-            background: var(--dark-bg);
-        }
-        
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-        
-        .section-header {
-            text-align: center;
-            margin-bottom: 4rem;
-        }
-        
-        .section-badge {
-            display: inline-block;
-            background: rgba(0, 212, 255, 0.1);
-            border: 1px solid rgba(0, 212, 255, 0.3);
-            padding: 0.4rem 1.2rem;
-            border-radius: 50px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: var(--primary-cyan);
-            margin-bottom: 1rem;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-        }
-        
-        .section-title {
-            font-size: 3rem;
-            font-weight: 800;
-            margin-bottom: 1rem;
-            letter-spacing: -1px;
-        }
-        
-        .section-description {
-            font-size: 1.2rem;
-            color: var(--text-secondary);
-            max-width: 700px;
-            margin: 0 auto;
-        }
-        
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-        
-        .feature-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 20px;
-            padding: 2.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
             transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
         }
-        
-        .feature-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, var(--primary-cyan), var(--primary-blue));
-            transform: scaleX(0);
-            transition: transform 0.3s ease;
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
         }
-        
-        .feature-card:hover {
-            transform: translateY(-8px);
-            border-color: rgba(0, 212, 255, 0.3);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        .neon-text {
+            text-shadow: 0 0 10px #3b82f6, 0 0 20px #3b82f6;
         }
-        
-        .feature-card:hover::before {
-            transform: scaleX(1);
-        }
-        
-        .feature-icon {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, rgba(0, 212, 255, 0.2), rgba(0, 132, 255, 0.2));
-            border-radius: 15px;
+        /* Estilos para la conexión Bluetooth */
+        .bluetooth-status {
             display: flex;
             align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            margin-bottom: 1.5rem;
-        }
-        
-        .feature-card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            font-weight: 700;
-        }
-        
-        .feature-card p {
-            color: var(--text-secondary);
-            line-height: 1.7;
-        }
-        
-        /* Stats Section */
-        .stats-section {
-            padding: 5rem 2rem;
-            background: linear-gradient(135deg, rgba(0, 212, 255, 0.05), rgba(0, 132, 255, 0.05));
-            border-top: 1px solid var(--border-color);
-            border-bottom: 1px solid var(--border-color);
-        }
-        
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 3rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        .stat-item {
-            text-align: center;
-        }
-        
-        .stat-number {
-            font-size: 3.5rem;
-            font-weight: 900;
-            background: linear-gradient(135deg, var(--primary-cyan), var(--primary-blue));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 0.5rem;
-        }
-        
-        .stat-label {
-            font-size: 1.1rem;
-            color: var(--text-secondary);
+            gap: 8px;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 14px;
             font-weight: 500;
         }
-        
-        /* Projects Section */
-        .projects-section {
-            padding: 6rem 2rem;
-            background: var(--dark-bg);
+        .bluetooth-connected {
+            background: rgba(74, 222, 128, 0.2);
+            color: #4ade80;
         }
-        
-        .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2.5rem;
-            margin-top: 3rem;
+        .bluetooth-disconnected {
+            background: rgba(248, 113, 113, 0.2);
+            color: #f87171;
         }
-        
-        .project-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 20px;
-            overflow: hidden;
-            transition: all 0.3s ease;
+        .bluetooth-connecting {
+            background: rgba(250, 204, 21, 0.2);
+            color: #facc15;
         }
-        
-        .project-card:hover {
-            transform: translateY(-10px);
-            border-color: rgba(0, 212, 255, 0.3);
-            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.6);
+        .bluetooth-pulse {
+            animation: pulse 2s infinite;
         }
-        
-        .project-image {
-            width: 100%;
-            height: 250px;
-            object-fit: cover;
-            transition: transform 0.5s ease;
-        }
-        
-        .project-card:hover .project-image {
-            transform: scale(1.05);
-        }
-        
-        .project-content {
-            padding: 2rem;
-        }
-        
-        .project-badges {
-            display: flex;
-            gap: 0.5rem;
-            margin-bottom: 1rem;
-            flex-wrap: wrap;
-        }
-        
-        .badge {
-            background: rgba(0, 212, 255, 0.15);
-            color: var(--primary-cyan);
-            padding: 0.3rem 0.8rem;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 600;
-        }
-        
-        .badge.success {
-            background: rgba(34, 197, 94, 0.15);
-            color: #22c55e;
-        }
-        
-        .project-card h3 {
-            font-size: 1.6rem;
-            margin-bottom: 1rem;
-            font-weight: 700;
-        }
-        
-        .project-card p {
-            color: var(--text-secondary);
-            line-height: 1.7;
-            margin-bottom: 1.5rem;
-        }
-        
-        .project-link {
-            color: var(--primary-cyan);
-            text-decoration: none;
-            font-weight: 600;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            transition: gap 0.3s ease;
-        }
-        
-        .project-link:hover {
-            gap: 1rem;
-        }
-        
-        /* Team Section */
-        .team-section {
-            padding: 6rem 2rem;
-            background: var(--card-bg);
-        }
-        
-        .team-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2.5rem;
-            margin-top: 3rem;
-        }
-        
-        .team-card {
-            background: var(--dark-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 20px;
-            padding: 2.5rem;
-            text-align: center;
-            transition: all 0.3s ease;
-        }
-        
-        .team-card:hover {
-            transform: translateY(-8px);
-            border-color: rgba(0, 212, 255, 0.3);
-        }
-        
-        .team-avatar {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--primary-cyan), var(--primary-blue));
-            margin: 0 auto 1.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3rem;
-            font-weight: 700;
-            color: white;
-        }
-        
-        .team-card h3 {
-            font-size: 1.4rem;
-            margin-bottom: 0.5rem;
-            font-weight: 700;
-        }
-        
-        .team-role {
-            color: var(--primary-cyan);
-            font-size: 0.95rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-        }
-        
-        .team-card p {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-        }
-        
-        /* Footer */
-        footer {
-            background: var(--card-bg);
-            border-top: 1px solid var(--border-color);
-            padding: 4rem 2rem 2rem;
-        }
-        
-        .footer-content {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 3rem;
-            margin-bottom: 3rem;
-        }
-        
-        .footer-section h4 {
-            font-size: 1.2rem;
-            margin-bottom: 1.5rem;
-            font-weight: 700;
-        }
-        
-        .footer-section p,
-        .footer-section a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            display: block;
-            margin-bottom: 0.8rem;
-            transition: color 0.3s ease;
-        }
-        
-        .footer-section a:hover {
-            color: var(--primary-cyan);
-        }
-        
-        .footer-bottom {
-            text-align: center;
-            padding-top: 2rem;
-            border-top: 1px solid var(--border-color);
-            color: var(--text-secondary);
-        }
-        
-        /* Responsive */
-        @media (max-width: 768px) {
-            .header-container {
-                padding: 0 1rem;
-            }
-            
-            nav {
-                display: none;
-            }
-            
-            .hero h1 {
-                font-size: 2.5rem;
-            }
-            
-            .hero .subtitle {
-                font-size: 1.1rem;
-            }
-            
-            .section-title {
-                font-size: 2rem;
-            }
-            
-            .features-grid,
-            .projects-grid,
-            .team-grid {
-                grid-template-columns: 1fr;
-            }
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
         }
     </style>
 </head>
-<body>
-    <header id="header">
-        <div class="header-container">
-            <div class="logo-section">
-                <img src="https://raw.githubusercontent.com/PPBTECH/home/main/logo PPB tech sin fondo.png" alt="PPB TECH Logo">
-                <span class="brand-name">PPB TECH</span>
+<body class="min-h-screen">
+    <!-- Barra superior -->
+    <header class="bg-black/90 backdrop-blur-md p-4 border-b border-blue-900">
+        <div class="container mx-auto flex justify-between items-center">
+            <!-- Logo -->
+            <div class="flex items-center space-x-3">
+                <img src="C:/Users/Tobias/Desktop/pagina web PPB TECH/imagenes/logo PPB tech sin fondo.png" alt="PPB TECH Logo" class="h-12 w-auto">
+                <span class="text-2xl font-bold text-blue-400">PPB <span class="text-white">TECH</span></span>
             </div>
-            <nav>
-                <a href="#inicio">Inicio</a>
-                <a href="#nosotros">Nosotros</a>
-                <a href="#proyectos">Proyectos</a>
-                <a href="#equipo">Equipo</a>
-                <a href="#contacto" class="cta-button">Contáctanos</a>
+
+            <!-- Menú de navegación -->
+            <nav class="hidden md:flex items-center space-x-8">
+                <a href="#" class="text-white hover:text-blue-400 transition-colors">Inicio</a>
+                <a href="#" class="text-gray-400 hover:text-blue-400 transition-colors">Nosotros</a>
+                <a href="#" class="text-gray-400 hover:text-blue-400 transition-colors">Proyectos</a>
+                <a href="#" class="text-gray-400 hover:text-blue-400 transition-colors">Equipo</a>
+                <a href="#" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md font-medium transition-colors">
+                    Contáctanos
+                </a>
             </nav>
+
+            <!-- Menú móvil (hamburguesa) -->
+            <button class="md:hidden text-white focus:outline-none">
+                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                </svg>
+            </button>
+
+            <!-- Estado de Bluetooth (se mantiene pero con estilos actualizados) -->
+            <div class="hidden md:flex items-center space-x-4">
+                <div id="bluetooth-status" class="bluetooth-status bluetooth-disconnected">
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M14.88 16.29L13 18.17v-3.76m0-8.58l1.88 1.88L13 9.58m4.71-1.87L12 2h-1v7.58l4.3 4.3 1.41-1.42M10.5 5.17L5.33 10.3c-.59.59-.59 1.54 0 2.12l5.17 5.17v-7.6l-2.88-2.88 1.42-1.41M7.1 10.29l3.4 3.4v7.2l-4.3-4.3c-.59-.58-.59-1.53 0-2.12l.9-.9m13.9-1.93l-1.43 1.43-5.27 5.27v-1.41l5.2-5.2c.6-.58.6-1.54 0-2.12l-5.2-5.2-1.41 1.41 5.2 5.2c.6.59.6 1.54 0 2.13z"/>
+                    </svg>
+                    <span>No conectado</span>
+                </div>
+                <button id="connect-bluetooth" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-medium transition-colors">
+                    Conectar Dispositivo
+                </button>
+            </div>
         </div>
     </header>
 
-    <section class="hero" id="inicio">
-        <video autoplay muted loop class="video-bg">
-            <source src="https://raw.githubusercontent.com/PPBTECH/home/main/intro  IEK.mp4" type="video/mp4">
-        </video>
-        <div class="hero-content">
-            <div class="hero-badge">🤖 Equipo de Robótica Profesional</div>
-            <h1>Innovamos el futuro con robótica de clase mundial</h1>
-            <p class="subtitle">Desarrollamos robots avanzados, competimos a nivel nacional e inspiramos a la próxima generación de ingenieros en Paraguay</p>
-            <div class="hero-buttons">
-                <a href="proyectos_modern.html" class="btn-primary">Ver Proyectos</a>
-                <a href="#nosotros" class="btn-secondary">Conocer Más</a>
+    <!-- Contenido principal -->
+    <main class="container mx-auto p-4">
+        <!-- Fila de métricas -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <!-- Tarjeta de Temperatura -->
+            <div class="dashboard-card p-6">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <p class="text-slate-400">Temperatura</p>
+                        <h2 class="text-3xl font-bold" id="temperature-value">--°C</h2>
+                        <p class="text-sm text-green-400" id="temp-status">--</p>
+                    </div>
+                    <div class="text-4xl">🌡️</div>
+                </div>
+                <div id="temp-chart" class="mt-4 h-20"></div>
+            </div>
+
+            <!-- Tarjeta de Humedad -->
+            <div class="dashboard-card p-6">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <p class="text-slate-400">Humedad</p>
+                        <h2 class="text-3xl font-bold" id="humidity-value">--%</h2>
+                        <p class="text-sm text-blue-400" id="humidity-status">--</p>
+                    </div>
+                    <div class="text-4xl">💧</div>
+                </div>
+                <div id="humidity-chart" class="mt-4 h-20"></div>
+            </div>
+
+            <!-- Tarjeta de Humedad del Suelo -->
+            <div class="dashboard-card p-6">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <p class="text-slate-400">Humedad del Suelo</p>
+                        <h2 class="text-3xl font-bold" id="soil-value">--%</h2>
+                        <p class="text-sm text-yellow-400" id="soil-status">--</p>
+                    </div>
+                    <div class="text-4xl">🌱</div>
+                </div>
+                <div id="soil-chart" class="mt-4 h-20"></div>
+            </div>
+
+            <!-- Tarjeta de Estado -->
+            <div class="dashboard-card p-6 bg-gradient-to-br from-blue-900/50 to-slate-800/50">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <p class="text-slate-300">Estado del Sistema</p>
+                        <h2 class="text-2xl font-bold text-green-400" id="system-status">Inactivo</h2>
+                        <p class="text-sm">Última actualización: <span id="last-update">--</span></p>
+                        <p class="text-sm mt-2">Estado Fuego: <span id="fire-status" class="text-green-400">Apagado</span></p>
+                    </div>
+                    <div class="text-4xl">✅</div>
+                </div>
             </div>
         </div>
-    </section>
 
-    <section class="stats-section">
-        <div class="container">
-            <div class="stats-grid">
-                <div class="stat-item">
-                    <div class="stat-number">3+</div>
-                    <div class="stat-label">Años de Experiencia</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-number">15+</div>
-                    <div class="stat-label">Proyectos Completados</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-number">2</div>
-                    <div class="stat-label">Premios Nacionales</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-number">10+</div>
-                    <div class="stat-label">Competencias</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="features-section" id="nosotros">
-        <div class="container">
-            <div class="section-header">
-                <div class="section-badge">¿Quiénes Somos?</div>
-                <h2 class="section-title">Excelencia en Robótica STEAM</h2>
-                <p class="section-description">PPB TECH es el equipo de robótica que representa con orgullo a la Institución Educativa Pablo Patricio Bogarín</p>
+        <!-- Gráficos principales -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+            <!-- Gráfico de temperatura -->
+            <div class="lg:col-span-2 dashboard-card p-6">
+                <h3 class="text-lg font-semibold mb-4">Datos en Tiempo Real</h3>
+                <div id="main-chart" class="h-80"></div>
             </div>
             
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">🎯</div>
-                    <h3>Nuestra Misión</h3>
-                    <p>Formar futuros líderes en robótica mediante educación práctica en programación, diseño mecánico y electrónica, cultivando una mentalidad innovadora para abordar desafíos tecnológicos.</p>
+            <!-- Mapa 3D -->
+            <div class="dashboard-card p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-lg font-semibold">Vista 3D del Entorno</h3>
+                    <span class="text-xs bg-blue-500/20 text-blue-400 px-2 py-1 rounded">Simulación</span>
                 </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">🏆</div>
-                    <h3>Logros Destacados</h3>
-                    <p>Segundo lugar en World Robot Olympiad (WRO) y Premio a la Excelencia en STEAM 2024 otorgado por FIRST Tech Challenge Paraguay.</p>
-                </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">💡</div>
-                    <h3>Innovación Continua</h3>
-                    <p>Desarrollamos proyectos que no solo son técnicamente avanzados, sino también significativos para la comunidad y el medio ambiente.</p>
-                </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">🔧</div>
-                    <h3>Experiencia Práctica</h3>
-                    <p>Los miembros adquieren experiencia en programación y construcción de robots, trabajando en un entorno profesional de equipo.</p>
-                </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">🌍</div>
-                    <h3>Competencias Internacionales</h3>
-                    <p>Participamos en eventos desde locales hasta nacionales, representando a Paraguay en competencias de robótica FTC y WRO.</p>
-                </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">📚</div>
-                    <h3>Educación STEAM</h3>
-                    <p>Mantenemos una cultura de aprendizaje continuo en Ciencia, Tecnología, Ingeniería, Arte y Matemáticas.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="projects-section" id="proyectos">
-        <div class="container">
-            <div class="section-header">
-                <div class="section-badge">Nuestro Trabajo</div>
-                <h2 class="section-title">Proyectos Destacados</h2>
-                <p class="section-description">Robots innovadores que han competido y ganado en eventos nacionales e internacionales</p>
-            </div>
-            
-            <div class="projects-grid">
-                <div class="project-card">
-                    <img src="https://raw.githubusercontent.com/PPBTECH/home/main/seguidor de linea.webp" alt="Robot Siguelíneas" class="project-image">
-                    <div class="project-content">
-                        <div class="project-badges">
-                            <span class="badge success">Completado</span>
-                            <span class="badge">Arduino</span>
-                            <span class="badge">Sensores IR</span>
-                        </div>
-                        <h3>Robot Siguelíneas</h3>
-                        <p>Robot móvil autónomo capaz de seguir una línea negra utilizando sensores infrarrojos QTR-8A y motores DC controlados por Arduino.</p>
-                        <a href="proyectos_nuevo.html" class="project-link">Ver detalles →</a>
-                    </div>
-                </div>
-                
-                <div class="project-card">
-                    <img src="https://raw.githubusercontent.com/PPBTECH/home/main//equipo.jpeg" alt="Robot Reforestador" class="project-image">
-                    <div class="project-content">
-                        <div class="project-badges">
-                            <span class="badge success">2do Lugar WRO</span>
-                            <span class="badge">Sustentable</span>
-                        </div>
-                        <h3>Robot Reforestador</h3>
-                        <p>Proyecto ganador del segundo puesto en la World Robot Olympiad. Robot diseñado para ayudar en tareas de reforestación y cuidado ambiental.</p>
-                        <a href="#" class="project-link">Próximamente →</a>
-                    </div>
-                </div>
-                
-                <div class="project-card">
-                    <img src="https://raw.githubusercontent.com/PPBTECH/home/main//hero_background.jpg" alt="Robot FTC" class="project-image">
-                    <div class="project-content">
-                        <div class="project-badges">
-                            <span class="badge success">Premio STEAM</span>
-                            <span class="badge">FTC 2024</span>
-                        </div>
-                        <h3>Robot FTC 2024</h3>
-                        <p>Robot competidor en la First Tech Challenge Paraguay. Ganador del Premio a la Excelencia en STEAM 2024 por innovación y trabajo en equipo.</p>
-                        <a href="#" class="project-link">Próximamente →</a>
+                <div id="3d-container" class="h-80 bg-slate-800/50 rounded-lg flex items-center justify-center">
+                    <div class="text-center p-4">
+                        <div class="text-6xl mb-4">🌍</div>
+                        <p class="text-slate-400">Visualización 3D del entorno</p>
+                        <p class="text-sm text-slate-500 mt-2">Los datos se actualizarán al conectar el dispositivo</p>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
 
-    <section class="team-section" id="equipo">
-        <div class="container">
-            <div class="section-header">
-                <div class="section-badge">Nuestro Equipo</div>
-                <h2 class="section-title">Los Cerebros Detrás de la Innovación</h2>
-                <p class="section-description">Estudiantes apasionados por la tecnología y la robótica</p>
-            </div>
-            
-            <div class="team-grid">
-                <div class="team-card">
-                    <div class="team-avatar">TN</div>
-                    <h3>Tobías Núñez</h3>
-                    <p class="team-role">Miembro Fundador</p>
-                    <p>Especialista en programación y electrónica. Líder técnico del equipo con experiencia en Arduino y diseño de circuitos.</p>
+        <!-- Consola y alertas -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <!-- Consola -->
+            <div class="dashboard-card p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-lg font-semibold">Consola del Sistema</h3>
+                    <button id="clear-console" class="text-xs bg-slate-700 hover:bg-slate-600 px-2 py-1 rounded">
+                        Limpiar
+                    </button>
                 </div>
+                <div id="console" class="bg-slate-900/50 p-4 rounded-lg h-80 overflow-y-auto font-mono text-sm space-y-2">
+                    <div class="text-blue-400">[SISTEMA] Dashboard iniciado</div>
+                    <div class="text-slate-500">[SISTEMA] Esperando conexión del dispositivo...</div>
+                </div>
+            </div>
+
+            <!-- Alertas -->
+            <div class="dashboard-card p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-lg font-semibold">Alertas</h3>
+                    <span id="alert-count" class="px-3 py-1 bg-red-500/20 text-red-400 rounded-full text-xs">0 nuevas</span>
+                </div>
+                <div id="alerts-container" class="space-y-4 max-h-80 overflow-y-auto pr-2">
+                    <div class="text-center text-slate-500 py-8">
+                        <p>No hay alertas recientes</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // ============================================
+        // SIMULADOR BLUETOOTH
+        // ============================================
+        class BluetoothSimulator {
+            constructor() {
+                this.connected = false;
+                this.deviceName = "ESP32-Env-Sensor";
+                this.data = {
+                    temperature: 0,
+                    humidity: 0,
+                    soilMoisture: 0,
+                    fireDetected: false
+                };
+                this.updateInterval = null;
+                this.alertCount = 0;
+            }
+
+            async connect() {
+                return new Promise((resolve) => {
+                    updateBluetoothStatus('connecting', 'Conectando...');
+                    addToConsole('Conectando al dispositivo ESP32...', 'info');
+                    
+                    // Simular tiempo de conexión
+                    setTimeout(() => {
+                        this.connected = true;
+                        
+                        // Inicializar con valores aleatorios
+                        this.data = {
+                            temperature: Math.floor(Math.random() * 10) + 20, // 20-30°C
+                            humidity: Math.floor(Math.random() * 30) + 40,    // 40-70%
+                            soilMoisture: Math.floor(Math.random() * 40) + 20, // 20-60%
+                            fireDetected: false
+                        };
+                        
+                        this.startDataUpdates();
+                        updateBluetoothStatus('connected', `Conectado a ${this.deviceName}`);
+                        addToConsole('Conexión exitosa con el dispositivo', 'success');
+                        updateSensorData(this.data);
+                        
+                        // Agregar alerta de conexión
+                        this.addAlert('Dispositivo conectado correctamente', 'info');
+                        
+                        resolve();
+                    }, 1500);
+                });
+            }
+
+            disconnect() {
+                this.connected = false;
+                if (this.updateInterval) {
+                    clearInterval(this.updateInterval);
+                    this.updateInterval = null;
+                }
+                updateBluetoothStatus('disconnected', 'No conectado');
+                addToConsole('Desconectado del dispositivo', 'warning');
                 
-                <div class="team-card">
-                    <div class="team-avatar">CD</div>
-                    <h3>César Delvalle</h3>
-                    <p class="team-role">Miembro Fundador</p>
-                    <p>Experto en diseño mecánico y construcción de robots. Responsable de la ingeniería estructural de nuestros proyectos.</p>
-                </div>
+                // Actualizar la interfaz
+                document.getElementById('temperature-value').textContent = '--°C';
+                document.getElementById('humidity-value').textContent = '--%';
+                document.getElementById('soil-value').textContent = '--%';
+                document.getElementById('system-status').textContent = 'Inactivo';
+                document.getElementById('fire-status').textContent = '--';
+            }
+
+            startDataUpdates() {
+                // Actualizar datos cada 3 segundos
+                this.updateInterval = setInterval(() => {
+                    // Simular pequeñas variaciones en los datos
+                    const newData = {
+                        temperature: this.getRandomInRange(20, 30, this.data.temperature, 0.8),
+                        humidity: this.getRandomInRange(40, 70, this.data.humidity, 2),
+                        soilMoisture: this.getRandomInRange(20, 60, this.data.soilMoisture, 3),
+                        fireDetected: Math.random() > 0.98 // 2% de probabilidad de detección de fuego
+                    };
+
+                    // Aplicar cambios
+                    this.data = newData;
+                    
+                    // Actualizar la interfaz
+                    updateSensorData(newData);
+                    
+                    // Verificar alertas
+                    this.checkAlerts(newData);
+                    
+                }, 3000);
+            }
+
+            getRandomInRange(min, max, current, maxChange) {
+                const change = (Math.random() * 2 - 1) * maxChange;
+                let newValue = current + change;
+                return Math.min(Math.max(newValue, min), max);
+            }
+
+            checkAlerts(data) {
+                // Alerta de temperatura alta
+                if (data.temperature > 28) {
+                    this.addAlert(`¡Temperatura alta! ${data.temperature.toFixed(1)}°C`, 'high');
+                }
                 
-                <div class="team-card">
-                    <div class="team-avatar">JM</div>
-                    <h3>Jorge Monzón</h3>
-                    <p class="team-role">Miembro Activo</p>
-                    <p>Especialista en integración de sistemas y testing. Asegura el funcionamiento óptimo de todos nuestros robots.</p>
+                // Alerta de humedad del suelo baja
+                if (data.soilMoisture < 30) {
+                    this.addAlert(`¡Humedad del suelo baja! ${Math.round(data.soilMoisture)}%`, 'medium');
+                }
+                
+                // Alerta de fuego
+                if (data.fireDetected) {
+                    this.addAlert('¡PELIGRO! Se ha detectado fuego', 'high');
+                }
+            }
+
+            addAlert(message, level = 'info') {
+                this.alertCount++;
+                updateAlertCount(this.alertCount);
+                
+                const alertElement = document.createElement('div');
+                alertElement.className = `p-4 rounded-r border-l-4 ${
+                    level === 'high' ? 'border-red-500 bg-red-900/30' : 
+                    level === 'medium' ? 'border-yellow-500 bg-yellow-900/30' :
+                    'border-blue-500 bg-blue-900/30'
+                }`;
+                
+                const time = new Date().toLocaleTimeString();
+                alertElement.innerHTML = `
+                    <div class="flex justify-between">
+                        <span class="font-medium">${message}</span>
+                        <span class="text-xs text-slate-400">${time}</span>
+                    </div>
+                `;
+                
+                const alertsContainer = document.getElementById('alerts-container');
+                if (alertsContainer.firstChild?.textContent?.includes('No hay alertas')) {
+                    alertsContainer.innerHTML = '';
+                }
+                alertsContainer.prepend(alertElement);
+                
+                // Mantener máximo 10 alertas
+                if (alertsContainer.children.length > 10) {
+                    alertsContainer.removeChild(alertsContainer.lastChild);
+                }
+            }
+        }
+
+        // ============================================
+        // FUNCIONES DE INTERFAZ
+        // ============================================
+        const bluetoothSimulator = new BluetoothSimulator();
+
+        // Actualizar estado de Bluetooth
+        function updateBluetoothStatus(status, message) {
+            const statusElement = document.getElementById('bluetooth-status');
+            const statusText = statusElement.querySelector('span');
+            
+            // Remover todas las clases de estado
+            statusElement.className = 'bluetooth-status';
+            statusElement.classList.add(`bluetooth-${status}`);
+            
+            if (status === 'connecting') {
+                statusElement.classList.add('bluetooth-pulse');
+            } else {
+                statusElement.classList.remove('bluetooth-pulse');
+            }
+            
+            statusText.textContent = message;
+        }
+
+        // Añadir mensaje a la consola
+        function addToConsole(message, type = 'info') {
+            const consoleElement = document.getElementById('console');
+            const timestamp = new Date().toLocaleTimeString();
+            let typeClass = 'text-blue-400';
+            
+            if (type === 'error') typeClass = 'text-red-400';
+            else if (type === 'warning') typeClass = 'text-yellow-400';
+            else if (type === 'success') typeClass = 'text-green-400';
+            else if (type === 'info') typeClass = 'text-blue-400';
+            
+            const messageElement = document.createElement('div');
+            messageElement.className = `${typeClass} text-sm`;
+            messageElement.textContent = `[${timestamp}] ${message}`;
+            
+            consoleElement.prepend(messageElement);
+            
+            // Mantener solo los últimos 50 mensajes
+            while (consoleElement.children.length > 50) {
+                consoleElement.removeChild(consoleElement.lastChild);
+            }
+        }
+
+        // Actualizar contador de alertas
+        function updateAlertCount(count) {
+            const alertCountElement = document.getElementById('alert-count');
+            if (count > 0) {
+                alertCountElement.textContent = `${count} nueva${count > 1 ? 's' : ''}`;
+                alertCountElement.classList.remove('hidden');
+            } else {
+                alertCountElement.classList.add('hidden');
+            }
+        }
+
+        // Actualizar datos de los sensores en la interfaz
+        function updateSensorData(data) {
+            // Actualizar tarjetas principales
+            document.getElementById('temperature-value').textContent = `${data.temperature.toFixed(1)}°C`;
+            document.getElementById('humidity-value').textContent = `${Math.round(data.humidity)}%`;
+            document.getElementById('soil-value').textContent = `${Math.round(data.soilMoisture)}%`;
+            document.getElementById('system-status').textContent = 'Operativo';
+            
+            // Actualizar estado de fuego
+            const fireStatus = document.getElementById('fire-status');
+            if (data.fireDetected) {
+                fireStatus.textContent = '¡Fuego detectado!';
+                fireStatus.className = 'text-red-400 font-medium';
+            } else {
+                fireStatus.textContent = 'Apagado';
+                fireStatus.className = 'text-green-400';
+            }
+            
+            // Actualizar estados
+            updateStatus('temp', data.temperature, 15, 28);
+            updateStatus('humidity', data.humidity, 30, 70);
+            updateStatus('soil', data.soilMoisture, 30, 60);
+            
+            // Actualizar última actualización
+            document.getElementById('last-update').textContent = 'hace unos segundos';
+        }
+
+        // Actualizar estado de las métricas
+        function updateStatus(type, value, min, max) {
+            const statusElement = document.getElementById(`${type}-status`);
+            const range = max - min;
+            const normalized = (value - min) / range;
+            
+            if (normalized < 0.2) {
+                statusElement.textContent = 'Muy bajo';
+                statusElement.className = 'text-sm text-red-400';
+            } else if (normalized < 0.4) {
+                statusElement.textContent = 'Bajo';
+                statusElement.className = 'text-sm text-yellow-400';
+            } else if (normalized > 0.8) {
+                statusElement.textContent = 'Muy alto';
+                statusElement.className = 'text-sm text-red-400';
+            } else if (normalized > 0.6) {
+                statusElement.textContent = 'Alto';
+                statusElement.className = 'text-sm text-yellow-400';
+            } else {
+                statusElement.textContent = 'Normal';
+                statusElement.className = 'text-sm text-green-400';
+            }
+        }
+
+        // Actualizar gráficos
+        function initCharts() {
+            // Configuración común para gráficos pequeños
+            const smallChartOptions = {
+                chart: {
+                    type: 'area',
+                    height: '100%',
+                    sparkline: { enabled: true },
+                    animations: { enabled: false },
+                    toolbar: { show: false }
+                },
+                stroke: { curve: 'smooth', width: 2 },
+                fill: { 
+                    type: 'gradient',
+                    gradient: {
+                        shadeIntensity: 0.9,
+                        opacityFrom: 0.7,
+                        opacityTo: 0.2,
+                        stops: [0, 100]
+                    }
+                },
+                tooltip: { enabled: false },
+                xaxis: { type: 'datetime' },
+                yaxis: { min: 0 }
+            };
+
+            // Inicializar gráficos
+            const tempChart = new ApexCharts(document.querySelector("#temp-chart"), {
+                ...smallChartOptions,
+                series: [{ name: 'Temperatura', data: [] }],
+                colors: ['#F87171']
+            });
+
+            const humidityChart = new ApexCharts(document.querySelector("#humidity-chart"), {
+                ...smallChartOptions,
+                series: [{ name: 'Humedad', data: [] }],
+                colors: ['#60A5FA']
+            });
+
+            const soilChart = new ApexCharts(document.querySelector("#soil-chart"), {
+                ...smallChartOptions,
+                series: [{ name: 'Humedad del Suelo', data: [] }],
+                colors: ['#34D399']
+            });
+
+            // Gráfico principal
+            const mainChart = new ApexCharts(document.querySelector("#main-chart"), {
+                chart: {
+                    type: 'line',
+                    height: '100%',
+                    animations: { enabled: true },
+                    toolbar: { show: true },
+                    zoom: { enabled: true }
+                },
+                stroke: { curve: 'smooth', width: 3 },
+                series: [
+                    { name: 'Temperatura (°C)', data: [] },
+                    { name: 'Humedad (%)', data: [] },
+                    { name: 'Humedad Suelo (%)', data: [] }
+                ],
+                xaxis: { type: 'datetime' },
+                yaxis: [
+                    { title: { text: 'Temperatura (°C)' }, min: 15, max: 35 },
+                    { opposite: true, title: { text: 'Humedad (%)' }, min: 0, max: 100 }
+                ],
+                tooltip: { shared: true, x: { format: 'HH:mm' } },
+                colors: ['#F87171', '#60A5FA', '#34D399']
+            });
+
+            // Renderizar gráficos
+            tempChart.render();
+            humidityChart.render();
+            soilChart.render();
+            mainChart.render();
+
+            // Actualizar datos de los gráficos
+            setInterval(() => {
+                if (bluetoothSimulator.connected) {
+                    const now = new Date().getTime();
+                    const temp = bluetoothSimulator.data.temperature;
+                    const humidity = bluetoothSimulator.data.humidity;
+                    const soil = bluetoothSimulator.data.soilMoisture;
+
+                    // Actualizar gráficos pequeños
+                    tempChart.updateSeries([{ data: [...(tempChart.w.globals.series[0]?.data || []).slice(-11), { x: now, y: temp }] }]);
+                    humidityChart.updateSeries([{ data: [...(humidityChart.w.globals.series[0]?.data || []).slice(-11), { x: now, y: humidity }] }]);
+                    soilChart.updateSeries([{ data: [...(soilChart.w.globals.series[0]?.data || []).slice(-11), { x: now, y: soil }] }]);
+
+                    // Actualizar gráfico principal (mantener últimos 50 puntos)
+                    mainChart.updateSeries([
+                        { data: [...(mainChart.w.globals.series[0]?.data || []).slice(-49), { x: now, y: temp }] },
+                        { data: [...(mainChart.w.globals.series[1]?.data || []).slice(-49), { x: now, y: humidity }] },
+                        { data: [...(mainChart.w.globals.series[2]?.data || []).slice(-49), { x: now, y: soil }] }
+                    ]);
+                }
+            }, 3000);
+        }
+
+        // ============================================
+        // INICIALIZACIÓN
+        // ============================================
+        document.addEventListener('DOMContentLoaded', () => {
+            // Inicializar gráficos
+            initCharts();
+            
+            // Actualizar hora
+            function updateTime() {
+                const now = new Date();
+                document.getElementById('current-time').textContent = now.toLocaleTimeString('es-ES');
+            }
+            setInterval(updateTime, 1000);
+            updateTime();
+
+            // Manejador del botón de conexión Bluetooth
+            document.getElementById('connect-bluetooth').addEventListener('click', async () => {
+                const button = document.getElementById('connect-bluetooth');
+                
+                if (bluetoothSimulator.connected) {
+                    bluetoothSimulator.disconnect();
+                    button.textContent = 'Conectar Dispositivo';
+                    button.className = 'px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-medium transition-colors';
+                } else {
+                    button.disabled = true;
+                    button.textContent = 'Conectando...';
+                    button.className = 'px-4 py-2 bg-blue-400 text-white rounded-lg text-sm font-medium cursor-not-allowed';
+                    
+                    try {
+                        await bluetoothSimulator.connect();
+                        button.textContent = 'Desconectar';
+                        button.className = 'px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg text-sm font-medium transition-colors';
+                    } catch (error) {
+                        console.error('Error al conectar:', error);
+                        updateBluetoothStatus('error', 'Error de conexión');
+                        button.textContent = 'Reintentar conexión';
+                        button.className = 'px-4 py-2 bg-yellow-600 hover:bg-yellow-700 text-white rounded-lg text-sm font-medium transition-colors';
+                    } finally {
+                        button.disabled = false;
+                    }
+                }
+            });
+
+            // Limpiar consola
+            document.getElementById('clear-console').addEventListener('click', () => {
+                document.getElementById('console').innerHTML = '';
+                addToConsole('Consola limpiada', 'info');
+            });
+        });
+    </script>
+        <!-- Pie de página -->
+    <footer class="bg-slate-900/80 backdrop-blur-md border-t border-slate-700 mt-12">
+        <div class="container mx-auto px-4 py-8">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="flex items-center space-x-4 mb-4 md:mb-0">
+                    <img src="../imagenes/logo PPB tech sin fondo.png" alt="PPB Tech Logo" class="h-12 w-auto">
+                    <div>
+                        <h3 class="text-xl font-bold text-white">PPB TECH</h3>
+                        <p class="text-slate-400 text-sm">Monitoreo Ambiental Inteligente</p>
+                    </div>
+                </div>
+                <div class="flex space-x-6">
+                    <a href="#" class="text-slate-400 hover:text-white transition-colors">
+                        <span class="sr-only">Facebook</span>
+                        <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd" />
+                        </svg>
+                    </a>
+                    <a href="#" class="text-slate-400 hover:text-white transition-colors">
+                        <span class="sr-only">Instagram</span>
+                        <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path fill-rule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.415-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.415-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.45 2.525c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z" clip-rule="evenodd" />
+                        </svg>
+                    </a>
+                    <a href="#" class="text-slate-400 hover:text-white transition-colors">
+                        <span class="sr-only">Twitter</span>
+                        <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84" />
+                        </svg>
+                    </a>
+                    <a href="#" class="text-slate-400 hover:text-white transition-colors">
+                        <span class="sr-only">GitHub</span>
+                        <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                            <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.268 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.294 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.699 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd" />
+                        </svg>
+                    </a>
                 </div>
             </div>
-        </div>
-    </section>
-
-    <section class="features-section" id="contacto">
-        <div class="container">
-            <div class="section-header">
-                <div class="section-badge">Contacto</div>
-                <h2 class="section-title">¿Listo para Innovar con Nosotros?</h2>
-                <p class="section-description">Únete a PPB TECH y sé parte de la revolución tecnológica en Paraguay</p>
+            <div class="mt-8 pt-8 border-t border-slate-800">
+                <p class="text-center text-sm text-slate-400">&copy; 2025 PPB TECH. Todos los derechos reservados.</p>
             </div>
-            
-            <div style="max-width: 600px; margin: 3rem auto; text-align: center;">
-                <p style="font-size: 1.1rem; color: var(--text-secondary); margin-bottom: 2rem;">
-                    Estamos organizando talleres y charlas sobre robótica, programación, Arduino y componentes básicos de electrónica durante el periodo 2025-2026.
-                </p>
-                <a href="mailto:ppbtech@contacto.com" class="btn-primary" style="display: inline-block;">Contáctanos</a>
-            </div>
-        </div>
-    </section>
-
-    <footer>
-        <div class="footer-content">
-            <div class="footer-section">
-                <h4>PPB TECH</h4>
-                <p>Equipo de robótica de la Institución Educativa Pablo Patricio Bogarín</p>
-                <p>Innovación • Excelencia • Tecnología</p>
-            </div>
-            
-            <div class="footer-section">
-                <h4>Enlaces Rápidos</h4>
-                <a href="#inicio">Inicio</a>
-                <a href="#nosotros">Nosotros</a>
-                <a href="#proyectos">Proyectos</a>
-                <a href="#equipo">Equipo</a>
-            </div>
-            
-            <div class="footer-section">
-                <h4>Proyectos</h4>
-                <a href="proyectos_nuevo.html">Robot Siguelíneas</a>
-                <a href="#">Robot Reforestador</a>
-                <a href="#">Robot FTC 2024</a>
-            </div>
-            
-            <div class="footer-section">
-                <h4>Contacto</h4>
-                <p>Paraguay</p>
-                <p>ppbtech@contacto.com</p>
-                <a href="#">Instagram</a>
-                <a href="#">GitHub</a>
-            </div>
-        </div>
-        
-        <div class="footer-bottom">
-            <p>&copy; 2025 PPB TECH - Todos los derechos reservados | Institución Educativa Pablo Patricio Bogarín</p>
         </div>
     </footer>
 
-    <script>
-        // Header scroll effect
-        window.addEventListener('scroll', () => {
-            const header = document.getElementById('header');
-            if (window.scrollY > 50) {
-                header.classList.add('scrolled');
-            } else {
-                header.classList.remove('scrolled');
-            }
-        });
-    </script>
+    <style>
+        /* Estilos adicionales para el footer */
+        footer a {
+            transition: all 0.3s ease;
+        }
+        footer a:hover {
+            transform: translateY(-2px);
+        }
+    </style>
 </body>
 </html>
